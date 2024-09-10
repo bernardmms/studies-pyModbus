@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server               # Define o diretório correto para o contexto de build do servidor
+      dockerfile: Dockerfile           # Utiliza o Dockerfile dentro do diretório "server"
+    ports:
+      - 502:502
+    volumes:
+      - ./server:/server               # Monta apenas o diretório "server" no container
+    networks:
+      - modbusnet
+    tty: true                          # Mantém o terminal aberto para ver a saída
+
+  client:
+    build:
+      context: ./client               # Define o diretório correto para o contexto de build do cliente
+      dockerfile: Dockerfile           # Utiliza o Dockerfile dentro do diretório "client"
+    volumes:
+      - ./client:/client               # Monta apenas o diretório "client" no container
+    networks:
+      - modbusnet
+    tty: true                          # Mantém o terminal aberto para ver a saída
+
+networks:
+  modbusnet:
+    driver: bridge
